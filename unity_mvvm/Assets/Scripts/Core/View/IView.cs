@@ -4,8 +4,8 @@ using UnityEngine;
 
 //View基类要继承的接口
 //
-public interface IView
+public interface IView<T> where T : ViewModelBase
 {
     //上下文属性
-    ViewModelBase BindingContext { get; set; }
+    T BindingContext { get; set; }
 }
