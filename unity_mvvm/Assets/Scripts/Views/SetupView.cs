@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 //子类
-public class SetupView : UnityGuiView
+public class SetupView : UnityGuiView<ViewModelBase>
 {
     public InputField nameInputField;
     public Text nameMessageText;
@@ -28,13 +29,29 @@ public class SetupView : UnityGuiView
 
 
     //重写基类中的委托函数，VM发生改变时调用这个，更新VM中的各个组件
-    protected override void OnBindingContextChange(ViewModelBase oldValue, ViewModelBase newValue)
+    protected override void OnBindingContextChanged(ViewModelBase oldValue, ViewModelBase newValue)
     {
-        base.OnBindingContextChange(oldValue, newValue);
-
-        SetupViewModel oldVM = oldValue as SetupViewModel;
-        //oldValue.Name.OnValueChanged -= NameValueChanged;
-        //改变VM中各个组件的数值
     }
 
+    protected override void OnInitialize()
+    {
+        base.OnInitialize();
+        Binder.Add<string>("Color", OnColorPropertyValueChanged);
+    }
+
+
+    private void OnColorPropertyValueChanged(string oldValue, string newValue)
+    {
+        switch (newValue)
+        {
+            case "Red":
+                Debug.LogError("红色");
+                break;
+            case "Yellow":
+                Debug.LogError("黄色");
+                break;
+            default:
+                break;
+        }
+    }
 }
